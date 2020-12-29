@@ -1,0 +1,363 @@
+﻿@model ProductsListViewModel
+@using Technics.com.Interfaces
+@using Technics.com.Services
+@using Technics.com
+@using Technics.com.Enums
+
+@inject ServiceUser storageUser
+@inject IManufacturer ManufacturerRep
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <link href="~/css/products.css" rel="stylesheet" type="text/css" />
+</head>
+
+<div style="margin-bottom:-300px">
+    <div class="sidenav" style="padding-left:15px;height:auto;margin-top:195px;margin-left:75px;border:solid;padding-top:0%;border-width:thin;width:240px;position:absolute;border-radius:3px">
+        <div style="background-color:#eee2e2;width:238px;margin-left:-15px;height:20px;padding-top:15px;padding-bottom:20px;font-size:14px">
+            <h1 class="h6 mb-3 font-weight-normal" style="font-size:16px;margin-top:-6px;margin-left:4%">Фильтр товаров</h1>
+        </div>
+        <div class="h5 mb-3 font-weight-normal" style="margin-left:-3%;margin-top:18px;font-family:Gill Sans, sans-serif">Производитель</div>
+        <div style="">
+           
+            @{
+                var manufacturers = ManufacturerRep.GetAlIManufacturers();
+
+                foreach (var manufactory in manufacturers)
+                {
+
+                    if (Model.AllManufacturersChosenCategory.Any(x => x == manufactory.Id))
+                    {
+
+                        List<long> _chosenManufactures = Model.ChosenManufacturersId;
+
+                        if (_chosenManufactures.Any(x => x == manufactory.Id))
+                        {
+                            <div class="checkbox" style="margin-top:5px;">
+                                <input class="checked" type="checkbox" disabled checked>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="checkbox" style="margin-top:5px;">
+                                <input class="checked" type="checkbox" disabled>
+                            </div>
+                        }
+
+
+                        <h3 class="h3 mb-3 font-weight-normal" style="margin-top:-36px;">
+                            <a style="font-size:18px;margin-top:6px; margin-left:2px" class="nav-link" href='@Url.Action("List", "Products", new { manufactureId = manufactory.Id, categoryId = Model.CurrentCategoryId, page = 1,sortBy = Model.SortBy })'>@manufactory.Name</a>
+                        </h3>
+                    }
+
+                }
+            }
+
+        </div>
+
+        <p class="h5 mb-3 font-weight-normal">
+            <label for="amount" style="color:black;margin-bottom:2px;margin-left:-3%;font-family:Gill Sans, sans-serif">Цена</label>
+        </p>
+        <div style="display:inline-flex">
+            <input type="text" id="amount" style="width:65px; margin-right:20px;border-radius:6px;border-width:2px">
+            <input type="text" id="amount_1" style="width:65px;border-radius:6px;margin-left:-10px">
+            <input type="submit" id="submit" style="height:30px;border:none;font: 13.3333px Arial;border-radius:4px;padding-left: 16px;padding-right: 16px;padding-top:4px;background-color:#f5f5f5;text-transform:uppercase;font-size:14px;box-shadow:0 0 0 1px;margin-left:15px" value="OK">
+        </div>
+        <div id="slider-range" style="margin-right:40px;margin-top:17px;width:210px;margin-bottom:20px"></div>
+    </div>
+
+    <div class="results">
+
+        <div style="margin-left:305px;margin-top:90px;margin-bottom:35px">
+            <div class="nubex" style="font-family:Gill Sans, sans-serif;">@Model.CurrentCategory</div>
+        </div>
+
+
+        <select style="width:220px;margin-left:84%;margin-right:100px;margin-top:-90px" onchange="window.location.href=this.options[this.selectedIndex].value" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+           
+            @{
+                if (Model.SortBy == SortPrice.FROM_EXP_TO_CH)
+                {
+                    <option selected value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=@SortPrice.FROM_EXP_TO_CH&categoryId=@Model.CurrentCategoryId">От дорогих к дешевым</option>
+                }
+                else
+                {
+                    <option value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=@SortPrice.FROM_EXP_TO_CH&categoryId=@Model.CurrentCategoryId">От дорогих к дешевым</option>
+
+                }
+
+                if (Model.SortBy == SortPrice.FROM_CH_TO_EXP)
+                {
+                    <option selected value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=@SortPrice.FROM_CH_TO_EXP&categoryId=@Model.CurrentCategoryId">От дешевых к дорогим</option>
+                }
+                else
+                {
+                    <option value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=@SortPrice.FROM_CH_TO_EXP&categoryId=@Model.CurrentCategoryId">От дешевых к дорогим</option>
+                }
+
+                if (Model.SortBy == SortPrice.POPULAR)
+                {
+                    <option selected value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=@SortPrice.POPULAR&categoryId=@Model.CurrentCategoryId">Популярные</option>
+                }
+                else
+                {
+                    <option value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=@SortPrice.POPULAR&categoryId=@Model.CurrentCategoryId">Популярные</option>
+                }
+            }
+
+        </select>
+
+
+        <div class="row mt-5 mb-3" style="margin-right:-50px; margin-left:170px">
+
+            @{
+                foreach (Product item in Model.ProductsOnLoad)
+                {
+                    var subsrt = item.ShortDescription.Split(@"\n");
+                    string desc = string.Join("\n", subsrt);
+
+                    <ul class="products clearfix">
+                        <li class="product-wrapper">
+                            <div class="product">
+
+                                @{
+                                    var customer = storageUser.GetUser();
+
+                                    var id = item.Imgs.Min(x => x.Id);
+
+                                    if (customer != null)
+                                    {
+                                        if (customer.Role == Roles.Admin)
+                                        {
+                                            <a asp-controller="AdminProduct" asp-action="UpdateProduct" id="@item.Id" asp-route-id="@item.Id">
+                                                <div class="product-photo" data-title="@desc">
+                                                    <img src="@item.Imgs.FirstOrDefault(x=>x.Id == id).ImgUrl" class="descr" alt="@item.Name" />
+                                                </div>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Products" asp-action="Product" id="@item.Id" asp-route-id="@item.Id">
+                                                <div class="product-photo" data-title="@desc">
+                                                    <img src="@item.Imgs.FirstOrDefault(x=>x.Id == id).ImgUrl" class="descr" alt="@item.Name" />
+                                                </div>
+                                            </a>
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        <a asp-controller="Products" id="@item.Id" asp-action="Product" asp-route-id="@item.Id">
+                                            <div class="product-photo" data-title="@desc">
+                                                <img src="@item.Imgs.FirstOrDefault(x=>x.Id == id).ImgUrl" class="descr" alt="@item.Name" />
+                                            </div>
+                                        </a>
+                                    }
+                                }
+
+                                <h6 style="margin-top:5px">@item.Name</h6>
+                                <div class="form-inline">
+                                    <h6 style=""> @String.Format("{0:c}", item.Price)</h6>
+                                    <a style="margin-top:-13px;margin-left:4px" class="shopCart" data-custom-value="@item.Id">
+                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                             width="34" height="34"
+                                             viewBox="0 0 226 226"
+                                             style=" fill:#000000;">
+                                            <g transform="translate(-6.78,-6.78) scale(1.06,1.06)"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,226v-226h226v226z" fill="none"></path><g fill="#000000"><path d="M35.3125,49.4375c-3.88989,0 -7.0625,3.17261 -7.0625,7.0625c0,3.88989 3.17261,7.0625 7.0625,7.0625h15.66992l18.53906,74.15625c1.57251,6.29004 7.20044,10.59375 13.68359,10.59375h80.99805c6.3728,0 11.78003,-4.22095 13.46289,-10.37305l18.31836,-67.31445h-118.29687l3.53125,14.125h96.44727l-13.46289,49.4375h-80.99805l-18.53906,-74.15625c-1.57251,-6.29004 -7.20044,-10.59375 -13.68359,-10.59375zM155.375,148.3125c-11.6145,0 -21.1875,9.573 -21.1875,21.1875c0,11.6145 9.573,21.1875 21.1875,21.1875c11.6145,0 21.1875,-9.573 21.1875,-21.1875c0,-11.6145 -9.573,-21.1875 -21.1875,-21.1875zM91.8125,148.3125c-11.6145,0 -21.1875,9.573 -21.1875,21.1875c0,11.6145 9.573,21.1875 21.1875,21.1875c11.6145,0 21.1875,-9.573 21.1875,-21.1875c0,-11.6145 -9.573,-21.1875 -21.1875,-21.1875zM91.8125,162.4375c3.97266,0 7.0625,3.08984 7.0625,7.0625c0,3.97266 -3.08984,7.0625 -7.0625,7.0625c-3.97266,0 -7.0625,-3.08984 -7.0625,-7.0625c0,-3.97266 3.08984,-7.0625 7.0625,-7.0625zM155.375,162.4375c3.97266,0 7.0625,3.08984 7.0625,7.0625c0,3.97266 -3.08984,7.0625 -7.0625,7.0625c-3.97266,0 -7.0625,-3.08984 -7.0625,-7.0625c0,-3.97266 3.08984,-7.0625 7.0625,-7.0625z"></path></g></g></g>
+                                        </svg>
+                                    </a>
+
+                                    @{
+                                        if (customer != null)
+                                        {
+                                            if (customer.Role == Roles.Admin)
+                                            {
+                                                <a class="btn btn-primary" asp-controller="AdminProduct" asp-action="DeleteProduct" style="background-color:#d25a5a;margin-top:-36px;margin-left:122px" asp-route-id="@item.Id">Удалить</a>
+                                            }
+                                        }
+                                    }
+
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                }
+            }
+
+        </div>
+
+        <nav aria-label="Page navigation example" style="margin-left:250px;" class="text-center">
+            <div class="center">
+                <ul class="pagination">
+
+                    @{
+                        if (Model.PageInfo.TotalPages != 1)
+                        {
+                            for (int i = 1; i <= Model.PageInfo.TotalPages; i++)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("List", "Products", new { page = i, categoryId = Model.CurrentCategoryId,currentMinPrice = Model.CurrentMinPrice, currentMaxPrice = Model.CurrentMaxPrice,sortBy = Model.SortBy })">@i</a>
+                                </li>
+                            }
+                        }
+                    }
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="block-2" id="message">Товар добавлен! <span>+</span></div>
+</div>
+
+<style>
+    body {
+        margin-top: 5%;
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+
+    .nubex {
+        font-size: 28px;
+    }
+</style>
+
+<script>
+
+    $(function () {
+        $('.shopCart').click(function () {
+            var id = $(this).data("custom-value");
+            $('#'+id).clone()
+                .css({ 'position': 'absolute', 'z-index': '300' })
+                .appendTo('#' + id).animate({
+                    top: -350,
+                    left: -50,
+                    opacity: 0,
+                    width: 220
+                }, 1400, function () {
+                    $(this).remove();
+                    $('.block-2').show().animate({
+                        top: 300 ,
+                        opacity: 1,
+                    });
+                    setTimeout(function () {
+                        $('.block-2').fadeOut("500")
+                    }, 1500);
+                });
+
+            $.ajax({
+                type: 'get',
+                url: '/ShopCart/AddToCart',
+                data: 'id=' + id,
+                success: function () {
+                }
+            });
+        });
+        $('.block-2 span').click(function () {
+            $('.block-2').fadeOut(300);
+        });
+    });
+
+
+    $(function () {
+        $("#slider-range").slider({
+            range: true,
+            min: @Model.MinPriсe,
+            max: @Model.MaxPrice,
+            values: [@Model.CurrentMinPrice, @Model.CurrentMaxPrice],
+            slide: function (event, ui) {
+                $("#amount").val (ui.values[0]);
+                $("#amount_1").val( ui.values[1]);
+            }
+        });
+        $("#amount").val($("#slider-range").slider("values", 0));
+        $("#amount_1").val($("#slider-range").slider("values", 1));
+
+        //изменения курсора ползунка при вводе данных
+        $("input#amount").change(function () {
+            var value1 = $("input#amount").val();
+            var value2 = $("input#amount_1").val();
+            if (parseInt(value1) > parseInt(value2)) {
+                value1 = value2;
+                $("input#amount").val(value1);
+
+            }
+            $("#slider-range").slider("values", 0, value1);
+        });
+
+         //изменения курсора ползунка при вводе данных
+         $("input#amount_1").change(function () {
+            var value1 = $("input#amount").val();
+            var value2 = $("input#amount_1").val();
+            if (parseInt(value1) > parseInt(value2)) {
+                value2 = value1;
+                $("input#amount_1").val(value2);
+
+            }
+            $("#slider-range").slider("values", 1, value2);
+        });
+
+        //фильтрация ввода поля
+        jQuery('#amount,#amount_1').keypress(function (event) {
+            var key, keychar;
+            if (!event) var event = window.event;
+
+            if (event.keyCode) key = event.keyCode;
+            else if (event.which) key = event.which;
+
+            if (key == null || key == 0 || key == 8 || key == 13 || key == 9 || key == 46 || key == 37 || key == 39)
+                return true;
+            keychar = String.fromCharCode(key);
+            if (!/\d/.test(keychar)) return false;
+        })
+
+        //отправка данных
+        $(document).ready(function () {
+            $("#submit").click(function () {
+                var min = document.getElementById('amount');
+                var max = document.getElementById('amount_1');
+               $.ajax({
+                    type:'get',
+                   url: '/Products/ListForAjaxRequest',
+                   data: 'currentMinPrice=' + min.value + '&currentMaxPrice=' + max.value + '&page='+1 + '&categoryId=' + @Model.CurrentCategoryId +'&sortBy=' + '@Model.SortBy',
+                   success: function (html) {
+                       $('.results').html(html);
+                   }
+               });
+            });
+        });
+    });
+</script>
+
+<style>
+    .block-2 {
+        width: 400px;
+        height: 100px;
+        padding: 10px;
+        background: #f5f5f5;
+        border-radius: 5px;
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 12px 12px -9px #333;
+        text-align: center;
+        font-family: sans-serif;
+        opacity: 0;
+    }
+
+        .block-2 span {
+            position: absolute;
+            right: 5px;
+            top: 0px;
+            cursor: pointer;
+            transform: rotate(45deg);
+            font-size: 20px;
+        }
+</style>

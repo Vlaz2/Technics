@@ -1,0 +1,122 @@
+﻿@using Technics.com.Enums
+@using Technics.com.Models
+@model List<Order>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<div class="container" style="margin-top:80px">
+    <h1 class="h3 mb-3 font-weight-normal" style="margin-left:33%">Список недоставленных заказов</h1>
+
+    @foreach (var el in Model)
+    {
+        <div id="@el.Id">
+            <div class="alert body alert-warning mt-3">
+                <b style="margin-left:45%">Номер заказа:@el.Id</b>
+                <div style="margin-left:86%">Доставлено</div>
+
+                @{
+                    if (el.Delivered == true)
+                    {
+                        <a class="nav-link firstRenderCheckedDelivered" style="margin-left:93%;margin-top:-35px;margin-bottom:-60px" data-custom-value="@el.Id">
+                            <img src="https://img.icons8.com/windows/32/000000/checked-2.png" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="nav-link firstRenderUncheckedDelivered" style="margin-left:93%;margin-top:-35px;margin-bottom:-60px" data-custom-value="@el.Id">
+                            <img src="https://img.icons8.com/windows/32/000000/unchecked-checkbox.png" />
+                        </a>
+                    }
+
+
+                    <a class="nav-link checkedDelivered" style="margin-left:93%;margin-top:-35px;display:none;margin-bottom:-60px" id="checkedDelivered+@el.Id" data-custom-value="@el.Id">
+                        <img src="https://img.icons8.com/windows/32/000000/checked-2.png" />
+                    </a>
+
+                    <a class="nav-link uncheckedDelivered" style="margin-left:93%;margin-top:-35px;margin-bottom:-60px;display:none" id="uncheckedDelivered+@el.Id" data-custom-value="@el.Id">
+                        <img src="https://img.icons8.com/windows/32/000000/unchecked-checkbox.png" />
+                    </a>
+                }
+
+                <br />
+
+                @{
+                    foreach (var item in el.ProductsOrders.Select(x => x.Product))
+                    {
+                        var prodOrd = item.ProductsOrders.FirstOrDefault(x => x.OrderId == el.Id);
+                        var count = prodOrd.Count;
+
+                        var price = item.Price * count;
+
+                        <b>Товар:</b>@item.Name<br />
+                        <b>Количество:</b>@count<br />
+                        <br />
+
+                    }
+                }
+
+                <b>Дата заказа:</b>@el.OrderTime<br />
+                <b>Общая цена заказа:</b>@el.Price<br />
+                <b>Покупатель:</b>@el.User.Name<br />
+                <b>Телефон:</b>@el.User.Phone<br />
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".firstRenderCheckedDelivered").click(function () {
+            var id = $(this).data("custom-value");
+            var button = $(this);
+            $.ajax({
+                type: 'get',
+                url: '/AdminOrder/UpdateOrder',
+                data: 'by=@ChangeOrder.DELIVERED&orderId=' + id,
+                success: function () {
+                    button.hide();
+                    document.getElementById("uncheckedDelivered+" + id).style.display = "block";
+                }
+            });
+        });
+
+        $(".firstRenderUncheckedDelivered").click(function () {
+            var id = $(this).data("custom-value");
+            var button = $(this);
+            $.ajax({
+                type: 'get',
+                url: '/AdminOrder/UpdateOrder',
+                data: 'by=@ChangeOrder.DELIVERED&orderId=' + id,
+                success: function () {
+                    button.hide();
+                    document.getElementById("checkedDelivered+" + id).style.display = "block";
+                }
+            });
+        });
+
+        $(".checkedDelivered").click(function () {
+            var id = $(this).data("custom-value");
+            $.ajax({
+                type: 'get',
+                url: '/AdminOrder/UpdateOrder',
+                data: 'by=@ChangeOrder.DELIVERED&orderId=' + id,
+                success: function () {
+                    document.getElementById("checkedDelivered+" + id).style.display = "none";
+                    document.getElementById("uncheckedDelivered+" + id).style.display = "block";
+                }
+            });
+        });
+
+        $(".uncheckedDelivered").click(function () {
+            var id = $(this).data("custom-value");
+            $.ajax({
+                type: 'get',
+                url: '/AdminOrder/UpdateOrder',
+                data: 'by=@ChangeOrder.DELIVERED&orderId=' + id,
+                success: function () {
+                    document.getElementById("uncheckedDelivered+" + id).style.display = "none";
+                    document.getElementById("checkedDelivered+" + id).style.display = "block";
+                }
+            });
+        });
+    });
+</script>

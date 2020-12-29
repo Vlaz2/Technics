@@ -1,0 +1,118 @@
+.center {
+        width: 100%;
+        max-width: 350px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+
+    .product-wrapper {
+        display: block;
+        width: 100%;
+        float: left;
+        transition: width .2s;
+    }
+
+    .product {
+        display: block;
+        border: 1px solid #b5e9a7;
+        border-radius: 3px;
+        position: relative;
+        background: #fff;
+        margin: -18% -50px 50% 95px;
+        text-decoration: none;
+        color: #474747;
+        z-index: 0;
+        height: 200px;
+        width: 200px;
+    }
+
+    .product-photo {
+        position: relative;
+        padding-bottom: 100%;
+        overflow: hidden;
+    }
+
+        .product-photo img {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 100%;
+            max-height: 100%;
+            margin: auto;
+            transition: transform .4s ease-out;
+        }
+
+    .descr {
+        display: inline-block;
+        position: relative;
+        white-space: pre-wrap;
+    }
+
+    .product-photo:hover::after {
+        content: attr(data-title);
+        position: absolute;
+        left: 5%;
+        top: 25%;
+        z-index: 1;
+        background: rgba(255,255,230,0.9);
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        padding: 3px 2px;
+        border: 1px solid #333;
+        white-space: pre-wrap;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #fdf8f8;
+        padding-top: 20px;
+    }
+
+        .sidenav a {
+            padding: 6px 8px 2px 13px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #8b5e5e;
+            display: block;
+        }
+
+            .sidenav a:hover {
+                color: #bdb9b9;
+            }
+
+    a.button15 {
+        display: inline-block;
+        font-family: arial,sans-serif;
+        font-size: 11px;
+        font-weight: bold;
+        color: rgb(68,68,68);
+        text-decoration: none;
+        user-select: none;
+        padding: .2em 1.2em;
+        outline: none;
+        border: 1px solid rgba(0,0,0,.1);
+        border-radius: 2px;
+        background: rgb(245,245,245) linear-gradient(#f4f4f4, #f1f1f1);
+        transition: all .218s ease 0s;
+    }
+
+        a.button15:hover {
+            color: rgb(24,24,24);
+            border: 1px solid rgb(198,198,198);
+            background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);
+            box-shadow: 0 1px 2px rgba(0,0,0,.1);
+        }
+
+        a.button15:active {
+            color: rgb(51,51,51);
+            border: 1px solid rgb(204,204,204);
+            background: rgb(238,238,238) linear-gradient(rgb(238,238,238), rgb(224,224,224));
+            box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;
+        }

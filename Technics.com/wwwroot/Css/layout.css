@@ -1,0 +1,146 @@
+ .dws-menu * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .dws-menu ul,
+        .dws-menu ol {
+            list-style: none;
+        }
+
+        .dws-menu > ul {
+            display: flex;
+            justify-content: center;
+        }
+
+            .dws-menu > ul li {
+                position: relative;
+            }
+
+                .dws-menu > ul li > a i.fa {
+                    position: absolute;
+                    top: 15px;
+                    left: 12px;
+                    font-size: 18px;
+                }
+
+                .dws-menu > ul li a {
+                    display: block;
+                    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c9c9c9+0,f6f6f6+2,c4c5c7+98,757577+100;Custom+3 */
+                    padding: 15px 30px 15px 40px;
+                    color: #808080;
+                    transition: all 0.0s  ease;
+                }
+
+        .dws-menu li a:hover {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e0e1e5+0,454547+2,454547+98,e0e1e5+100 */
+            background: rgb(224,225,229); /* Old browsers */
+            background: -moz-linear-gradient(top, rgba(224,225,229,1) 0%, rgba(69,69,71,1) 2%, rgba(69,69,71,1) 98%, rgba(224,225,229,1) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(224,225,229,1) 0%,rgba(69,69,71,1) 2%,rgba(69,69,71,1) 98%,rgba(224,225,229,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(224,225,229,1) 0%,rgba(69,69,71,1) 2%,rgba(69,69,71,1) 98%,rgba(224,225,229,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            color: #808080;
+            box-shadow: 1px 5px 10px -5px black;
+            transition: all 0.0s  ease
+        }
+
+        /*sub menu*/
+        .dws-menu li ul {
+            position: absolute;
+            min-width: 150px;
+            display: none;
+        }
+
+        /*.dws-menu li > ul li {
+            border: 1px solid #c7c8ca;
+        }*/
+
+        .dws-menu li > ul li a {
+            padding: 10px;
+            text-transform: none;
+            background: #808080;
+        }
+
+        .dws-menu li > ul li ul {
+            position: absolute;
+            right: -149px;
+            top: 0;
+            width: 66px;
+        }
+
+        .dws-menu li:hover > ul {
+            display: block;
+        }
+
+
+        .dws-menu2 * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .dws-menu2 ul,
+        .dws-menu ol {
+            list-style: none;
+        }
+
+        .dws-menu2 > ul {
+            display: flex;
+            justify-content: center;
+        }
+
+            .dws-menu2 > ul li {
+                position: relative;
+            }
+
+                .dws-menu2 > ul li > a i.fa {
+                    position: absolute;
+                    top: 15px;
+                    left: 10px;
+                    font-size: 18px;
+                }
+
+                .dws-menu2 > ul li a {
+                    display: block;
+                    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c9c9c9+0,f6f6f6+2,c4c5c7+98,757577+100;Custom+3 */
+                    padding: 15px 30px 15px 40px;
+                    color: #808080;
+                    transition: all 0.0s  ease;
+                }
+
+        .dws-menu2 li a:hover {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e0e1e5+0,454547+2,454547+98,e0e1e5+100 */
+            background: rgb(224,225,229); /* Old browsers */
+            background: -moz-linear-gradient(top, rgba(224,225,229,1) 0%, rgba(69,69,71,1) 2%, rgba(69,69,71,1) 98%, rgba(224,225,229,1) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(224,225,229,1) 0%,rgba(69,69,71,1) 2%,rgba(69,69,71,1) 98%,rgba(224,225,229,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(224,225,229,1) 0%,rgba(69,69,71,1) 2%,rgba(69,69,71,1) 98%,rgba(224,225,229,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            color: #808080;
+            box-shadow: 1px 5px 10px -5px black;
+            transition: all 0.0s  ease;
+        }
+
+        /*sub menu*/
+        .dws-menu2 li ul {
+            position: absolute;
+            min-width: 160px;
+            display: none;
+        }
+
+        /*.dws-menu li > ul li {
+            border: 1px solid #c7c8ca;
+        }*/
+
+        .dws-menu2 li > ul li a {
+            padding: 10px;
+            text-transform: none;
+            background: #808080;
+        }
+
+        .dws-menu2 li > ul li ul {
+            position: absolute;
+            right: -159px;
+            top: 0;
+            width: 80px;
+        }
+
+        .dws-menu2 li:hover > ul {
+            display: block;
+        }

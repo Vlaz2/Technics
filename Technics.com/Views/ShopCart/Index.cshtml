@@ -1,0 +1,50 @@
+﻿@using Technics.com.ViewModels;
+@model ProductsCartViewModel
+@using Technics.com.Services
+@inject ServiceCart serviceCart
+
+    <div class="container" style="margin-top:80px">
+
+        @{
+            if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success" style="width:500px;text-align:center;margin-left:25%" role="alert">
+                    <strong>@ViewBag.Message</strong>
+                </div>
+            }
+        }
+
+        <div style="margin-left:77%">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                 width="27" height="27"
+                 viewBox="0 0 226 226"
+                 style=" fill:#000000;margin-left:1%">
+                <g transform="translate(22.6,22.6) scale(0.8,0.8)"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,226v-226h226v226z" fill="none" stroke="none"></path><g fill="#000000" stroke="none"><path d="M8.1925,9.04c-0.14125,0.03531 -0.2825,0.08828 -0.42375,0.14125c-4.39641,0.61797 -7.76875,4.34344 -7.76875,8.89875c0,4.99672 4.04328,9.04 9.04,9.04c4.99672,0 9.04,-4.04328 9.04,-9.04h21.04625c5.63234,0 8.56328,1.16531 10.735,3.1075c2.13641,1.92453 3.86672,5.17328 5.3675,10.17l36.16,145.91125c1.35953,5.17328 2.71906,10.50547 6.4975,14.83125c1.57141,1.80094 3.54891,3.26641 5.9325,4.37875c-2.64844,3.14281 -4.37875,7.04484 -4.37875,11.44125c0,9.94047 8.13953,18.08 18.08,18.08c9.94047,0 18.08,-8.13953 18.08,-18.08c0,-3.31938 -0.97109,-6.35625 -2.5425,-9.04h27.685c-1.57141,2.68375 -2.5425,5.72062 -2.5425,9.04c0,9.94047 8.13953,18.08 18.08,18.08c9.94047,0 18.08,-8.13953 18.08,-18.08c0,-4.64359 -1.88922,-8.79281 -4.8025,-12.00625c0.51203,-1.37719 0.30016,-2.93094 -0.52969,-4.13156c-0.8475,-1.21828 -2.22469,-1.94219 -3.70781,-1.94219h-69.07125c-6.97422,0 -9.81687,-1.48313 -11.72375,-3.6725c-1.88922,-2.17172 -3.03687,-5.96781 -4.37875,-11.0175v-0.14125l-3.1075,-12.28875h82.91375c1.88922,0 3.60188,-1.18297 4.2375,-2.96625l32.4875,-85.88c0.52969,-1.37719 0.33547,-2.93094 -0.51203,-4.14922c-0.8475,-1.21828 -2.24234,-1.94219 -3.72547,-1.92453h-138.84875l-9.605,-38.56125c0,-0.08828 0,-0.19422 0,-0.2825c-1.73031,-5.82656 -3.97266,-10.87625 -8.05125,-14.54875c-4.07859,-3.6725 -9.81687,-5.3675 -16.80875,-5.3675h-30.08625c-0.14125,0 -0.2825,0 -0.42375,0c-0.14125,0 -0.2825,0 -0.42375,0zM75.85125,76.84h130.09125l-29.0975,76.84h-81.925zM117.52,198.88c5.04969,0 9.04,3.99031 9.04,9.04c0,5.04969 -3.99031,9.04 -9.04,9.04c-5.04969,0 -9.04,-3.99031 -9.04,-9.04c0,-5.04969 3.99031,-9.04 9.04,-9.04zM176.28,198.88c5.04969,0 9.04,3.99031 9.04,9.04c0,5.04969 -3.99031,9.04 -9.04,9.04c-5.04969,0 -9.04,-3.99031 -9.04,-9.04c0,-5.04969 3.99031,-9.04 9.04,-9.04z"></path></g></g></g>
+            </svg>
+            <div class="inf" style="margin-top:-25px;margin-left:12%">
+                товаров <span class="badge" style="background-color:#eee2e2">@Model.ProductsCount</span> на <span class="badge" style="background-color:#eee2e2">@Model.Price</span> грн
+            </div>
+        </div>
+
+        @foreach (var el in Model.Products)
+        {
+            <div class="alert body alert-warning mt-3">
+                <b>товар: </b>@el.Name<br />
+                <b>цена: </b>@el.Price.ToString() грн
+            </div>
+            <p><a class="btn btn-warning" asp-controller="ShopCart" asp-action="Delete" asp-route-id="@el.Id">Отложить</a></p>
+        }
+
+        @if (Model.Products.Count != 0)
+        {
+            <a class="btn btn-danger" asp-controller="Order" asp-action="CreateOrder">Оформить заказ</a>
+        }
+
+    </div>
+
+<style>
+
+    .inf {
+        font-size: 17px;
+    }
+</style>

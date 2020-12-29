@@ -1,0 +1,330 @@
+﻿@using Technics.com.Models
+@using Technics.com.Services
+@inject ServiceUser storageUser
+@model Product
+
+<!DOCTYPE html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Product</title>
+</head>
+<body style="overflow-y:scroll">
+    <h2 class="h2 mb-3 font-weight-normal" style="margin-top:100px;margin-left:7%;width:800px">@Model.Name</h2>
+    <div class="product-wrapper">
+        <div class="product" style="margin-top:5%">
+            <div class="product-photo" data-title="">
+                <img id='bigimg' src="@Model.Imgs.FirstOrDefault().ImgUrl" alt="@Model.Name" />
+            </div>
+
+        </div>
+        <div class="" style="display: flex;">
+           
+            @{
+                foreach (var img in Model.Imgs)
+                {
+                    <ul class="">
+                        <li class="secondProduct-wrapper">
+                            <div class="Seccondproduct">
+                                <div class="Seccondproduct-photo">
+                                    <img src="@img.ImgUrl" onclick='setBigImage(this)' />
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                }
+            }
+
+        </div>
+    </div>
+
+    <div style="margin-left:59%;margin-bottom:-100px">
+        <h1 class="h3 mb-3 font-weight-normal" style="margin-left:65%;">@Model.Price грн</h1>
+
+        <a class="btn btn-warning shopCart" style="background-color:#957b7b;color:white;margin-left:65%" data-custom-value="@Model.Id">Добавить в корзину</a>
+    </div>
+    <div style="margin-left:43%;margin-top:2.7%">
+        <div>
+            
+            @{
+                var subsrt = Model.LongDescription.Split(@"\n");
+                string desc = string.Join("\n", subsrt);
+                var longDesc = Model.LongDescription.Split(@"\n");
+                foreach (var item in longDesc)
+                {
+                    <div>
+                        <h1 class="h6 mb-3 font-weight-normal" style="">@item</h1>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+    
+    @{
+        var user = storageUser.GetUser();
+        if (user != null)
+        {
+            <div style=" margin-left:78%;margin-bottom:-13%;margin-top:4%">
+                <form asp-action="AddComment" method="post" class="form-horizontal" style="">
+                    <div class="form-group">
+                        <label class="control-label" style="font-size:18px;margin-left:4%" for="text">Оставьте ваш отзыв</label>
+                        <div class="col-md-10">
+                            <input hidden autocomplete="off" name="productId" asp-for="Id" style="width:1px" class="form-control" />
+                            <textarea name="message" style="resize:none;width:300px;" maxlength="300"> </textarea>
+                            <span class="text-danger"></span>
+                            <button class="btn btn-success" type="submit" style="width:66%;margin-top:2%;background-color:#84837a;text-align:center;">Оставить отзыв</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        }
+    }
+
+    <div style="margin-left:42%;margin-top:4%;margin-right:27%">
+       
+        @{
+            <label class="control-label" style="font-size:19px;margin-left:12px;" for="text">Отзывы покупателей:</label>
+            if (Model.Comments.Count != 0)
+            {
+                foreach (var comment in Model.Comments)
+                {
+                    <div class="media-body">
+                        <div class="media-heading">
+                            <div class="author" style="margin-left:15px">@comment.User.Name</div>
+                            <div class="metadata" style="margin-left:5px">
+                                <span class="date">@comment.DateTime.ToString()</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media-text text-justify" style="margin-left:15px">
+                        @comment.Message
+                    </div>
+                }
+            }
+            else
+            {
+                <div>
+                </div>
+                <label style="margin-left:13px;font-size:17px;">Пока нету отзывов на этот товар</label>
+            }
+        }
+
+    </div>
+    <div class="block-2" id="message">Товар добавлен! <span>+</span></div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    function setBigImage(foto) {
+        document.getElementById("bigimg").src = foto.src;
+    }
+
+</script>
+<style>
+    .block-2 {
+        width: 400px;
+        height: 100px;
+        padding: 10px;
+        background: #f5f5f5;
+        border-radius: 5px;
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 12px 12px -9px #333;
+        text-align: center;
+        font-family: sans-serif;
+        opacity: 0;
+    }
+
+        .block-2 span {
+            position: absolute;
+            right: 5px;
+            top: 0px;
+            cursor: pointer;
+            transform: rotate(45deg);
+            font-size: 20px;
+        }
+    .media-body .author {
+        display: inline-block;
+        font-size: 1rem;
+        color: #000;
+        font-weight: 700;
+    }
+
+    .media-body .metadata {
+        display: inline-block;
+        margin-left: .5rem;
+        color: #777;
+        font-size: .8125rem;
+    }
+
+    .footer-comment {
+        color: #777;
+    }
+
+    .vote.plus:hover {
+        color: green;
+    }
+
+    .vote.minus:hover {
+        color: red;
+    }
+
+    .vote {
+        cursor: pointer;
+    }
+
+    .comment-reply a {
+        color: #777;
+    }
+
+        .comment-reply a:hover, .comment-reply a:focus {
+            color: #000;
+            text-decoration: none;
+        }
+
+    .devide {
+        padding: 0px 4px;
+        font-size: 0.9em;
+    }
+
+    .media-text {
+        margin-bottom: 0.25rem;
+    }
+
+    .title-comments {
+        font-size: 1.4rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+        color: rgba(0, 0, 0, .87);
+        margin-bottom: 1rem;
+        padding-bottom: .25rem;
+        border-bottom: 1px solid rgba(34, 36, 38, .15);
+    }
+
+    .product-wrapper {
+        display: block;
+        width: 40%;
+        float: left;
+        transition: width .2s;
+    }
+
+    .product {
+        display: block;
+        border: 1px solid #b5e9a7;
+        border-radius: 3px;
+        position: relative;
+        background: #fff;
+        margin: 0 0 0% 17%;
+        text-decoration: none;
+        color: #474747;
+        z-index: 0;
+        height: 65%;
+        width: 65%;
+    }
+
+    .product-photo {
+        position: relative;
+        padding-bottom: 100%;
+        overflow: hidden;
+    }
+
+        .product-photo img {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 100%;
+            max-height: 100%;
+            margin: auto;
+            transition: transform .4s ease-out;
+        }
+
+    .secondProduct-wrapper {
+        display: block;
+        width: 10%;
+        float: left;
+        margin-left:180%;
+        transition: width .2s;
+    }
+
+    .Seccondproduct {
+        display: block;
+        border: 1px solid #b5e9a7;
+        border-radius: 3px;
+        position: relative;
+        background: #fff;
+        margin: 0% -40px 0% 0%;
+        text-decoration: none;
+        color: #474747;
+        z-index: 0;
+        height: 75px;
+        width: 75px;
+    }
+
+    .Seccondproduct-photo {
+        position: relative;
+        padding-bottom: 100%;
+        overflow: hidden;
+    }
+
+        .Seccondproduct-photo img {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 65%;
+            max-height: 65%;
+            margin: auto;
+            transition: transform .4s ease-out;
+        }
+</style>
+
+<script>
+     $(function () {
+         $('.shopCart').click(function () {
+             var id = $(this).data("custom-value");
+            $('#bigimg').clone()
+                .css({ 'position': 'absolute', 'z-index': '300' })
+                 .appendTo("#bigimg").animate({
+                     top: -700,
+                     left: -50,
+                     opacity: 0,
+                     width: 520
+                 }, 100, function () {
+                     $(this).remove();
+                     $('.block-2').show().animate({
+                         fadeOut: 100,
+                         top: 300,
+                         opacity: 1,
+                     });
+                     setTimeout(function () {
+                         $('.block-2').fadeOut("500")
+                     }, 1700);
+                 });
+
+            $.ajax({
+                type: 'get',
+                url: '/ShopCart/AddToCart',
+                data: 'id=' + id,
+                success: function () {
+                }
+            });
+        });
+        $('.block-2 span').click(function () {
+            $('.block-2').fadeOut(100);
+        });
+    });
+</script>

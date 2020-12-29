@@ -1,0 +1,183 @@
+﻿@model ProductsListViewModel
+@using Technics.com.Services
+@using Technics.com
+@inject ServiceUser storageUser
+<!DOCTYPE>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Products</title>
+</head>
+
+<body>
+
+    <div style="margin-left:385px;margin-top:92px;margin-bottom:38px">
+        <div style=" font-size: 28px;font-family:Gill Sans, sans-serif;">@Model.CurrentCategory</div>
+    </div>
+
+    <select style="width:220px;margin-left:80.5%;margin-top:-90px;" onchange="window.location.href=this.options[this.selectedIndex].value" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+        
+        @{
+            if (Model.SortBy == "FromExpensiveToCheap")
+            {
+                <option selected value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=FromExpensiveToCheap&categoryId=@Model.CurrentCategoryId">От дорогих к дешевым</option>
+            }
+            else
+            {
+                <option value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=FromExpensiveToCheap&categoryId=@Model.CurrentCategoryId">От дорогих к дешевым</option>
+
+            }
+
+            if (Model.SortBy == "FromCheapToExpensive")
+            {
+                <option selected value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=FromCheapToExpensive&categoryId=@Model.CurrentCategoryId">От дешевых к дорогим</option>
+            }
+            else
+            {
+                <option value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=FromCheapToExpensive&categoryId=@Model.CurrentCategoryId">От дешевых к дорогим</option>
+            }
+
+            if (Model.SortBy == "default")
+            {
+                <option selected value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=default&categoryId=@Model.CurrentCategoryId">Популярные</option>
+            }
+            else
+            {
+                <option value="/Products/List/?page=1&currentMinPrice=@Model.CurrentMinPrice&currentMaxPrice=@Model.CurrentMaxPrice&sortBy=default&categoryId=@Model.CurrentCategoryId">Популярные</option>
+            }
+
+        }
+
+    </select>
+
+    <div class="row mt-5 mb-3" style="margin-right:50px; margin-left:250px;">
+        
+        @{
+
+            foreach (Product item in Model.ProductsOnLoad)
+            {
+                var subsrt = item.ShortDescription.Split(@"\n");
+                string desc = string.Join("\n", subsrt);
+
+                <ul class="products clearfix">
+                    <li class="product-wrapper">
+                        <div class="product">
+                            
+                            @{
+                                var customer = storageUser.GetUser();
+                                var id = item.Imgs.Min(x => x.Id);
+
+                                if (customer != null)
+                                {
+
+                                    if (customer.Role == Roles.Admin)
+                                    {
+                                        <a asp-controller="AdminProduct" asp-action="UpdateProduct" id="@item.Id" asp-route-id="@item.Id">
+                                            <div class="product-photo" data-title="@desc">
+                                                <img src="@item.Imgs.FirstOrDefault(x=>x.Id == id).ImgUrl" class="descr" alt="@item.Name" />
+                                            </div>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Products" asp-action="Product" id="@item.Id" asp-route-id="@item.Id">
+                                            <div class="product-photo" data-title="@desc">
+                                                <img src="@item.Imgs.FirstOrDefault(x=>x.Id == id).ImgUrl" class="descr" alt="@item.Name" />
+                                            </div>
+                                        </a>
+                                    }
+                                }
+                                else
+                                {
+                                    <a asp-controller="Products" asp-action="Product" id="@item.Id" asp-route-id="@item.Id">
+                                        <div class="product-photo" data-title="@desc">
+                                            <img src="@item.Imgs.FirstOrDefault(x=>x.Id == id).ImgUrl" class="descr" alt="@item.Name" />
+                                        </div>
+                                    </a>
+                                }
+                            }
+
+                            <h6 style="margin-top:5px">@item.Name</h6>
+                            <div class="form-inline">
+                                <h6 style=""> @item.Price.ToString("c")</h6>
+                                <a style="margin-top:-13px;margin-left:4px" class="shopCart" data-custom-value="@item.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                         width="34" height="34"
+                                         viewBox="0 0 226 226"
+                                         style=" fill:#000000;">
+                                        <g transform="translate(-6.78,-6.78) scale(1.06,1.06)"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,226v-226h226v226z" fill="none"></path><g fill="#000000"><path d="M35.3125,49.4375c-3.88989,0 -7.0625,3.17261 -7.0625,7.0625c0,3.88989 3.17261,7.0625 7.0625,7.0625h15.66992l18.53906,74.15625c1.57251,6.29004 7.20044,10.59375 13.68359,10.59375h80.99805c6.3728,0 11.78003,-4.22095 13.46289,-10.37305l18.31836,-67.31445h-118.29687l3.53125,14.125h96.44727l-13.46289,49.4375h-80.99805l-18.53906,-74.15625c-1.57251,-6.29004 -7.20044,-10.59375 -13.68359,-10.59375zM155.375,148.3125c-11.6145,0 -21.1875,9.573 -21.1875,21.1875c0,11.6145 9.573,21.1875 21.1875,21.1875c11.6145,0 21.1875,-9.573 21.1875,-21.1875c0,-11.6145 -9.573,-21.1875 -21.1875,-21.1875zM91.8125,148.3125c-11.6145,0 -21.1875,9.573 -21.1875,21.1875c0,11.6145 9.573,21.1875 21.1875,21.1875c11.6145,0 21.1875,-9.573 21.1875,-21.1875c0,-11.6145 -9.573,-21.1875 -21.1875,-21.1875zM91.8125,162.4375c3.97266,0 7.0625,3.08984 7.0625,7.0625c0,3.97266 -3.08984,7.0625 -7.0625,7.0625c-3.97266,0 -7.0625,-3.08984 -7.0625,-7.0625c0,-3.97266 3.08984,-7.0625 7.0625,-7.0625zM155.375,162.4375c3.97266,0 7.0625,3.08984 7.0625,7.0625c0,3.97266 -3.08984,7.0625 -7.0625,7.0625c-3.97266,0 -7.0625,-3.08984 -7.0625,-7.0625c0,-3.97266 3.08984,-7.0625 7.0625,-7.0625z"></path></g></g></g>
+                                    </svg>
+                                </a>
+                                
+                                @{
+                                    if (customer != null)
+                                    {
+                                        if (customer.Role == Roles.Admin)
+                                        {
+                                            <a class="btn btn-primary" asp-controller="ProductsAdmin" asp-action="DeleteProduct" style="background-color:#d25a5a;margin-top:-36px;margin-left:129px" asp-route-id="@item.Id">Удалить</a>
+                                        }
+                                    }
+                                }
+
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+            }
+        }
+
+    </div>
+
+    <nav aria-label="Page navigation example" style="margin-left:730px;margin-top:25px;" class="text-center">
+        <ul class="pagination">
+
+            @{
+                if (Model.PageInfo.TotalPages != 1)
+                {
+                    for (int i = 1; i <= Model.PageInfo.TotalPages; i++)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("List", "Products", new { page = i, categoryId = Model.CurrentCategoryId,currentMinPrice = Model.CurrentMinPrice, currentMaxPrice = Model.CurrentMaxPrice,sortBy = Model.SortBy })">@i</a>
+                        </li>
+                    }
+                }
+            }
+
+        </ul>
+    </nav>
+</body>
+<script>
+    $(function () {
+        $('.shopCart').click(function () {
+            var id = $(this).data("custom-value");
+            $('#' + id).clone()
+                .css({ 'position': 'absolute', 'z-index': '300' })
+                .appendTo("#" + id).animate({
+                    top: -350,
+                    left: -50,
+                    opacity: 0,
+                    width: 220
+                }, 1400, function () {
+                    $(this).remove();
+                    $('.block-2').show().animate({
+                        top: 300,
+                        opacity: 1,
+                    });
+                    setTimeout(function () {
+                        $('.block-2').fadeOut("fast")
+                    }, 1500);
+                });
+
+            $.ajax({
+                type: 'get',
+                url: '/ShopCart/AddToCart',
+                data: 'id=' + id,
+                success: function () {
+                }
+            });
+        });
+        $('.block-2 span').click(function () {
+            $('.block-2').fadeOut(300);
+        });
+    });
+</script>

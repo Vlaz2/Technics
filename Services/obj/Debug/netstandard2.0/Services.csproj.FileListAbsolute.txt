@@ -1,0 +1,14 @@
+D:\Programs\Technics\NewTechincs\Services\obj\Debug\netstandard2.0\Services.csprojAssemblyReference.cache
+D:\Programs\Technics\NewTechincs\Services\obj\Debug\netstandard2.0\Services.AssemblyInfoInputs.cache
+D:\Programs\Technics\NewTechincs\Services\obj\Debug\netstandard2.0\Services.AssemblyInfo.cs
+D:\Programs\Technics\NewTechincs\Services\bin\Debug\netstandard2.0\Services.deps.json
+D:\Programs\Technics\NewTechincs\Services\bin\Debug\netstandard2.0\Services.dll
+D:\Programs\Technics\NewTechincs\Services\bin\Debug\netstandard2.0\Core.dll
+D:\Programs\Technics\NewTechincs\Services\bin\Debug\netstandard2.0\DataBaseProvider.dll
+D:\Programs\Technics\NewTechincs\Services\bin\Debug\netstandard2.0\DataBaseProvider.pdb
+D:\Programs\Technics\NewTechincs\Services\bin\Debug\netstandard2.0\Core.pdb
+D:\Programs\Technics\NewTechincs\Services\obj\Debug\netstandard2.0\Services.csproj.CopyComplete
+D:\Programs\Technics\NewTechincs\Services\bin\Debug\netstandard2.0\Services.pdb
+D:\Programs\Technics\NewTechincs\Services\obj\Debug\netstandard2.0\Services.dll
+D:\Programs\Technics\NewTechincs\Services\obj\Debug\netstandard2.0\Services.pdb
+D:\Programs\Technics\NewTechincs\Services\obj\Debug\netstandard2.0\Services.csproj.CoreCompileInputs.cache

@@ -1,0 +1,185 @@
+﻿@using Technics.com.Services
+@using Technics.com
+@using Technics.com.Interfaces
+@using Technics.com.Enums
+@inject ServiceUser storageUser
+@inject IProductsCategory categoryRep
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" id="tech" href='@Url.Action("DropManufacturers", "Products")'>Technics shop</a>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse collapse" id="navbarsExample03">
+                <nav class="dws-menu" id="navbarsExample03">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item" style="margin-left:8px">
+                            <a class="nav-link" style="color:white" href="#">Каталог товаров</a>
+                            <ul>
+
+                                @{
+                                    var categorysP = categoryRep.GetAllParentCategories();
+
+                                    foreach (var parent in categorysP)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link" style="color:#e8d5d5" href='@Url.Action("DropManufacturers", "Products", new { _categoryId = parent.Id })'>@parent.CategoryName</a>
+                                            <ul>
+
+                                                @{
+                                                    var categorys = categoryRep.GetAllCategories().Where(x => x.ParentCategoryId == parent.Id);
+                                                    foreach (var item in categorys)
+                                                    {
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" style="color:#e8d5d5" href='@Url.Action("DropManufacturers", "Products", new { _categoryId = item.Id })'>@item.CategoryName</a>
+                                                            <ul>
+                                                                
+                                                                @{
+                                                                    var categorys2 = categoryRep.GetAllCategories().Where(x => x.ParentCategoryId == item.Id);
+                                                                    foreach (var cat in categorys2)
+                                                                    {
+                                                                        <li class="nav-item">
+                                                                            <a style="color:#e8d5d5" class="nav-link" href='@Url.Action("DropManufacturers", "Products", new { _categoryId = cat.Id })'>@cat.CategoryName</a>
+                                                                        </li>
+                                                                    }
+                                                                }
+
+                                                            </ul>
+                                                        </li>
+                                                    }
+
+                                                }
+
+                                            </ul>
+                                        </li>
+                                    }
+                                }
+
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <nav class="dws-menu">
+                    
+                    @{
+                        var customer = storageUser.GetUser();
+
+                        if (customer != null)
+                        {
+                            if (customer.Role == Roles.Admin)
+                            {
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item" style="margin-left:12px">
+                                        <a class="nav-link" style="color:white" href="#">Создать</a>
+                                        <ul>
+                                            <li class="nav-item">
+                                                <a class="nav-link">Товар</a>
+                                                <ul>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href='@Url.Action("CreateProductsByFile", "AdminProduct")'>Файлом</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href='@Url.Action("CreateProduct", "AdminProduct")'>Вручную</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href='@Url.Action("CreateCategoryWithStandartParent", "AdminCategory")'>Категорию</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href='@Url.Action("CreateManufacturer", "AdminManufacturer")'>Производителя</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href='@Url.Action("AdminRegistration", "Registration")'>Администратора</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            }
+                        }
+                    }
+
+                </nav>
+
+                <nav class="dws-menu2">
+                    
+                    @{
+                        if (customer != null)
+                        {
+                            if (customer.Role == Roles.Admin)
+                            {
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item" style="margin-left:12px">
+                                        <a style="color:white" class="nav-link" href="#">Заказы покупателей</a>
+                                        <ul>
+                                            <li>
+                                                <a class="nav-link" href="#">Подтверждения</a>
+                                                <ul>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href='@Url.Action("GetOrdersBy", "AdminOrder",new { by = GetOrderBy.NOT_SERVED_ORDERS })'>Неподтвержденные</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href='@Url.Action("ServedOrdersInformation", "AdminOrder")'>Обслуживание</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a class="nav-link" href="#">Доставка</a>
+                                                <ul>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href='@Url.Action("GetOrdersBy", "AdminOrder",new { by = GetOrderBy.DELIVERED_ORDERS })'>Доставлено</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href='@Url.Action("GetOrdersBy", "AdminOrder",new { by = GetOrderBy.NOT_DELIVERED_ORDERS })'>Не доставлено</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            }
+                        }
+                    }
+
+                </nav>
+
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" style="margin-left:12px">
+                        <a class="nav-link cart" style="color:white;" href="/ShopCart/Index">Корзина</a>
+                    </li>
+                    <li class="nav-item" style="margin-left:12px">
+                        <a class="nav-link" style="color:white" href='@Url.Action("Index", "Registration")'>Регистрация</a>
+                    </li>
+
+                    @{
+                        if (customer == null)
+                        {
+                            <li class="nav-item" style="margin-left:12px">
+                                <a class="nav-link" style="color:white" href='@Url.Action("Index", "Login")'>Войти</a>
+                            </li>
+                        }
+                    };
+
+                </ul>
+                @Html.Partial("UserInf")
+            </div>
+        </nav>
+    </header>
+
+    @RenderBody()
+</body>
+</html>

@@ -1,0 +1,18 @@
+﻿@using Technics.com.ViewModels
+@model List<ServedOrdersViewModel>
+
+
+<div class="container" style="margin-top:80px">
+    <h1 class="h3 mb-3 font-weight-normal" style="margin-left:36%">Обслуживание заказов</h1>
+
+    @foreach (var el in Model)
+    {
+        <div class="alert body alert-warning mt-3">
+
+            <b>Администратор:</b>@el.User.Name<br />
+            <b>Количество обслуженных заказов:</b>@el.CountServedOrders<br />
+        </div>
+    }
+
+</div>
+

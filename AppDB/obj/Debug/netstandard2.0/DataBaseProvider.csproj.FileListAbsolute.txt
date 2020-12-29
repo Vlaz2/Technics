@@ -1,0 +1,9 @@
+D:\Programs\Technics\NewTechincs\AppDB\bin\Debug\netstandard2.0\DataBaseProvider.deps.json
+D:\Programs\Technics\NewTechincs\AppDB\bin\Debug\netstandard2.0\DataBaseProvider.dll
+D:\Programs\Technics\NewTechincs\AppDB\obj\Debug\netstandard2.0\DataBaseProvider.csprojAssemblyReference.cache
+D:\Programs\Technics\NewTechincs\AppDB\obj\Debug\netstandard2.0\DataBaseProvider.AssemblyInfoInputs.cache
+D:\Programs\Technics\NewTechincs\AppDB\obj\Debug\netstandard2.0\DataBaseProvider.AssemblyInfo.cs
+D:\Programs\Technics\NewTechincs\AppDB\bin\Debug\netstandard2.0\DataBaseProvider.pdb
+D:\Programs\Technics\NewTechincs\AppDB\obj\Debug\netstandard2.0\DataBaseProvider.dll
+D:\Programs\Technics\NewTechincs\AppDB\obj\Debug\netstandard2.0\DataBaseProvider.pdb
+D:\Programs\Technics\NewTechincs\AppDB\obj\Debug\netstandard2.0\DataBaseProvider.csproj.CoreCompileInputs.cache

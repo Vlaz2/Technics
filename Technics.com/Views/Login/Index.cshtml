@@ -1,0 +1,26 @@
+﻿@model User
+@using Technics.com.Services
+
+<div class="text-center">
+    <form class="form-signin" asp-action="Index" method="post">
+        <h1 class="h3 mb-3 font-weight-normal" style="margin-top:14%;margin-left:-36px;">Вход в личный кабинет</h1>
+        <h4 class="h5 mb-3 font-weight-normal" style="margin-top:40px;margin-left:-36px">@ViewBag.Message</h4>
+        <label for="inputEmail" class="sr-only">Адрес почтовой почты</label>
+        <input autocomplete="off" class="form-control" asp-for="Email" type="email" id="inputEmail" style="width:88%;text-align:center;" placeholder="Почтовый адрес" required="" autofocus="">
+        <label for="Ввидите пароль" class="sr-only">Пароль</label>
+        <input autocomplete="off" class="form-control" asp-for="Password" type="password" id="inputPassword" style="width:88%;text-align:center;" placeholder="Пароль" required="">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" style="margin-top:15px;width:88%">Войти</button>
+        <a href="@Url.Action("ForgotPassword", "User")" style="margin-right:-38%" class="pull-right">Забыли пароль?</a>
+    </form>
+</div>
+<style>
+    body {
+        margin: 100px; /* Убираем отступы */
+    }
+    .form-signin {
+        width: 100%;
+        max-width: 350px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+</style>

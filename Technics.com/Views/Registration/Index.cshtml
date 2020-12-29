@@ -1,0 +1,68 @@
+﻿
+@model User
+
+<div class="h4 mb-3 font-weight-normal" style="margin-left:5px">Регистрация нового пользователя</div>
+
+@{
+    if (ViewBag.message != null)
+    {
+        <div class="alert alert-success" style="width:305px;margin-left:0px" role="alert">
+            <strong>@ViewBag.Message</strong>
+        </div>
+    }
+}
+
+<form asp-action="index" method="post">
+    <fieldset>
+        <label class="control-label" style="margin-left:7px;" asp-for="Name">Имя</label>
+        <div class="col-md-10" style="margin-left:-10px">
+            <input autocomplete="off" asp-for="Name" style="width:300px" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+            <p class="help-block" style="font-size:14px">Не меньше 3 букв</p>
+        </div>
+
+        <label class="control-label" style="margin-left:7px;" asp-for="LastName">Фамилия</label>
+        <div class="col-md-10" style="margin-left:-10px">
+            <input autocomplete="off" asp-for="LastName" style="width:300px" class="form-control" required />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+            <p class="help-block" style="font-size:14px">Не меньше 3 букв</p>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label asp-for="Email" style="">Почтовый адрес</label>
+                <input type="email" autocomplete="off" asp-for="Email" placeholder="" style="width:300px;margin-bottom:20px" required class="form-control">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" style="" for="password">Телефон</label>
+            <div class="controls">
+                <input type="text" autocomplete="off" asp-for="Phone" placeholder="" style="width:300px" required class="form-control">
+                <p class="help-block" style="font-size:14px">+380...</p>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" style="" for="password">Пароль</label>
+            <div class="controls">
+                <input type="password" autocomplete="off" asp-for="Password" placeholder="" style="width:300px" required class="form-control">
+                <p class="help-block" style="font-size:14px">Не меньше 6 символов</p>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" style="background-color:#84837a;margin-bottom:3%" class="btn btn-success">Зарегистрироваться</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<style>
+    body {
+        margin-top: 90px;
+        margin-left: 60px;
+    }
+</style>

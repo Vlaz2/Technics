@@ -1,0 +1,97 @@
+﻿@using Technics.com.ViewModels
+@model List<OrderWithProductsViewModel>
+
+
+@{
+    if (Model != null)
+    {
+        <body>
+            <div class="container" style="margin-top:80px">
+
+                <h1 class="h2 mb-3 font-weight-normal" style="text-align:center">Мои заказы</h1>
+
+                @foreach (var el in Model)
+                {
+                    <div class="alert body alert-warning mt-3">
+                        <b style="margin-left:45%">Номер заказа:@el.Order.Id</b>
+                        <div style="margin-left:82%">Подтверждено</div>
+
+                        @{
+                            if (el.Order.ConfirmOrder == true)
+                            {
+                                <a class="nav-link firstRenderCheckedConfirm" style="margin-left:93%;margin-top:-35px;">
+                                    <img src="https://img.icons8.com/windows/32/000000/checked-2.png" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="nav-link firstRenderUncheckedConfirm" style="margin-left:93%;margin-top:-35px;">
+                                    <img src="https://img.icons8.com/windows/32/000000/unchecked-checkbox.png" />
+                                </a>
+                            }
+
+                            if (el.Order.PaymentMethod == Technics.com.PaymentMethod.NowToABankCard)
+                            {
+                                <div style="margin-left:82%;margin-top:5px">Оплачено</div>
+
+                                if (el.Order.Paid == false)
+                                {
+                                    <a class="nav-link firstRenderUncheckedPaid" style="margin-left:93%;margin-top:-35px;margin-bottom:-80px">
+                                        <img style="" src="https://img.icons8.com/windows/32/000000/unchecked-checkbox.png" />
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link firstRenderCheckedPaid" style="margin-left:93%;margin-top:-35px;margin-bottom:-80px">
+                                        <img style="" src="https://img.icons8.com/windows/32/000000/checked-2.png" />
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+                                <div style="margin-left:82%;margin-top:5px;margin-bottom:-75px;">Оплата при получении</div>
+                            }
+
+                            <div style="margin-left:82%;margin-top:85px">Доставлено</div>
+                            if (el.Order.Delivered == true)
+                            {
+                                <a class="nav-link firstRenderCheckedConfirm" style="margin-left:93%;margin-top:-35px;margin-bottom:-130px;">
+                                    <img src="https://img.icons8.com/windows/32/000000/checked-2.png" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="nav-link firstRenderUncheckedConfirm" style="margin-left:93%;margin-top:-35px;margin-bottom:-130px;">
+                                    <img src="https://img.icons8.com/windows/32/000000/unchecked-checkbox.png" />
+                                </a>
+                            }
+                        }
+
+                        <br />
+
+                        @{
+                            foreach (var item in el.Products)
+                            {
+                                var prodOrd = item.ProductsOrders.FirstOrDefault(x => x.OrderId == el.Order.Id);
+                                var count = prodOrd.Count;
+
+                                var price = item.Price * count;
+
+                                <b>Товар:</b>@item.Name<br />
+                                <b>Цена:</b>@price.ToString("c");<br />
+                                <b>Количество:</b>@count<br />
+                                <br />
+
+                            }
+                        }
+
+                        <b>Индекс:</b>@el.Order.PostCode<br />
+                        <b>Город доставки:</b>@el.Order.ToTown<br />
+                        <b>Дата заказа:</b>@el.Order.OrderTime<br />
+                        <b>Общая цена заказа:</b>@el.Order.Price<br />
+                    </div>
+                }
+            </div>
+        </body>
+    }
+}

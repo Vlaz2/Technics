@@ -1,0 +1,19 @@
+﻿<div style="margin-left:6%;margin-top:6%">
+    <h3></h3>
+    <h4 class="h4 mb-3 font-weight-normal" style="margin-top:40px;margin-left:-36px">Выберите файл для загрузки</h4>
+
+    @{
+        if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success" style="width:200px;text-align:center;margin-left:-33px" role="alert">
+                <strong>@ViewBag.Message!</strong>
+            </div>
+        }
+    }
+
+    <form asp-action="CreateProductsByFile" asp-controller="AdminProduct" style="margin-left:-35px" method="post" enctype="multipart/form-data">
+        <input name="uploadedFile" type="file" accept=".csv" style="width:300px" />
+        <br />
+        <input type="submit" class="btn btn-success" style="background-color:#84837a;margin-top:10px" value="Добавить" />
+    </form>
+</div>

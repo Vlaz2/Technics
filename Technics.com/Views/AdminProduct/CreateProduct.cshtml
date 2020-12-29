@@ -1,0 +1,109 @@
+﻿@model Technics.com.Models.Product
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CreateProduct</title>
+</head>
+<body class="body">
+    <h4 class="h4 mb-3 font-weight-normal" style=" margin-bottom:10px">Добавления товара</h4>
+
+    @{
+        if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success" style="width:250px;text-align:center;" role="alert">
+                <strong>@ViewBag.Message!</strong>
+            </div>
+        }
+    }
+
+    <div class="row">
+        <form asp-action="CreateProduct" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label" style="margin-left:15px" for="text">Название</label>
+                <div class="col-md-10">
+                    <input autocomplete="off" asp-for="Name" class="form-control" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" style="margin-left:15px" for="text">Краткое описание</label>
+                <div class="col-md-10">
+                    <textarea style="height:100px;resize:none;" asp-for="ShortDescription" class="form-control" required> </textarea>
+                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" style="margin-left:15px" for="text">Подробное описание</label>
+                <div class="col-md-10">
+                    <textarea style="height:200px;resize:none;" asp-for="LongDescription" class="form-control" required> </textarea>
+                    <span asp-validation-for="LongDescription" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" style="margin-left:15px" for="text">Количество товаров</label>
+                <div class="col-md-10">
+                    <input autocomplete="off" asp-for="AmountInStock" class="form-control" required />
+                    <span asp-validation-for="AmountInStock" class="text-danger"></span>
+                </div>
+            </div>
+
+            @{
+                for (int i = 0; i < 6; i++)
+                {
+                    int number = i + 1;
+                    <div class="form-group">
+                        <label class="control-label" style="margin-left:15px" for="text">Фото №@number</label>
+                        <div class="col-md-10">
+                            <input autocomplete="off" asp-for="Imgs[i].ImgUrl" class="form-control" />
+                            <span asp-validation-for="Imgs[i].ImgUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+                }
+            }
+
+            <div class="form-group">
+                <label class="control-label" style="margin-left:15px" for="text">Цена</label>
+                <div class="col-md-10">
+                    <input autocomplete="off" asp-for="Price" class="form-control" required />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group" style="width:83%">
+                <div class="col-auto my-1">
+                    <label class="control-label" style="" for="text">Название категории</label>
+                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" asp-for="CategoryId">
+                        @foreach (Category item in ViewBag.Category)
+                        {
+                            <option value="@item.Id">@item.CategoryName</option>
+                        }
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" style="width:83%">
+                <div class="col-auto my-1">
+                    <label class="control-label" style="" for="text">Название производителя</label>
+                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" asp-for="ManufacturerId">
+                        @foreach (Manufacturer item in ViewBag.Manufacture)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-success" type="submit" style="width:35%;margin-left:15px;margin-bottom:30px;background-color:#84837a">Создать</button>
+        </form>
+    </div>
+</body>
+</html>
+
+<style>
+    .body {
+        margin-left: 7%;
+        margin-top: 6%
+    }
+</style>
+

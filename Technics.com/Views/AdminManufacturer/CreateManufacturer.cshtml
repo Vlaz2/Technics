@@ -1,0 +1,34 @@
+﻿@model Technics.com.Models.Manufacturer
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CreateCategory</title>
+</head>
+<body class="body" style=" margin-left: 7%;margin-top: 7%">
+    <h1 class="h4 mb-3 font-weight-normal" style="margin-top:-1%">Создание производителя</h1>
+
+    @{
+        if (ViewBag.message != null)
+        {
+            <div class="alert alert-success" style="width:310px;margin-left:-10px;text-align:center" role="alert">
+                <strong>@ViewBag.message!</strong>
+            </div>
+        }
+    }
+
+    <div class="row" style="">
+        <form asp-action="CreateManufacturer" method="post" class="form-horizontal" style="width:216px">
+            <div class="form-group">
+                <label style="margin-left:15px" asp-for="Name">Название производителя</label>
+                <div class="col-md-10">
+                    <input autocomplete="off" asp-for="Name" class="form-control" required style="width:200px" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <button class="btn btn-success" type="submit" style="background-color:#84837a;margin-left:15px">Создать</button>
+        </form>
+    </div>
+</body>
+</html>
